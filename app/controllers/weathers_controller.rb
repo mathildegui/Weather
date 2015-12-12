@@ -1,11 +1,11 @@
 class WeathersController < ApplicationController
-  before_action :set_weather, only: [:show, :update, :destroy]
+ # before_action :set_weather, only: [:show, :update, :destroy]
 
   # GET /weathers
-  # GET /weathers.json ##
+  # GET /weathers.json
   def index
     @weathers = Weather.all
-    render json: @weathers
+    render json: @weathers.as_json
   end
 
   # GET /weathers/1
@@ -15,9 +15,9 @@ class WeathersController < ApplicationController
   end
 
   # GET /weathers/new
-  #def new
-  #  @weather = Weather.new
-  #end
+  def new
+    @weather = Weather.new
+  end
 
   # GET /weathers/1/edit
   #def edit
@@ -27,10 +27,10 @@ class WeathersController < ApplicationController
   # POST /weathers.json
   def create
     @weather = Weather.new(weather_params)
-
+    #@weather = Weather.create(params[:weather])
     #respond_to do |format|
       if @weather.save
-        render json: @weather, status: :created, location: @weather
+        render json: @weather.as_json, status: :created, location: @weather
         #format.html { redirect_to @weather, notice: 'Weather was successfully created.' }
         #format.json { render :show, status: :created, location: @weather }
       else
@@ -75,6 +75,6 @@ class WeathersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def weather_params
-      params.require(:weather).permit(:temperature, :humidity)
-    end
+      params.require(:weather).permit(:temperature, :humidity, :created_at)
+ end
 end
