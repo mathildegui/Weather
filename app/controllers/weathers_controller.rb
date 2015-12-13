@@ -14,6 +14,12 @@ class WeathersController < ApplicationController
     render json: @weather
   end
 
+  # GET /weathers/last
+  def last
+    @weather = Weather.last
+    render json: @weather.as_json
+  end
+
   # GET /weathers/new
   def new
     @weather = Weather.new
@@ -75,6 +81,7 @@ class WeathersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def weather_params
+      params[:weather] = params.clone  
       params.require(:weather).permit(:temperature, :humidity, :created_at)
- end
+    end
 end
